@@ -215,7 +215,7 @@ button:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--ink); outl
     </div>
     <div class="rb-actions">
       <button id="resetbtn"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Reset</button>
-      <button id="notesbtn"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6M9 13h6M9 17h3"/></svg>UX notes</button>
+      <button id="indexbtn"><svg viewBox="0 0 24 24"><path d="M4 6h4M4 12h4M4 18h4M11 6h9M11 12h9M11 18h9"/></svg>Index</button>
     </div>
   </div>
 </div>
@@ -418,7 +418,6 @@ function paint(){
   renderNotes();
   document.querySelectorAll("#skinpills button").forEach(b=>b.classList.toggle("on",b.dataset.fid===S.fidelity));
   document.querySelectorAll("#devpills button").forEach(b=>b.classList.toggle("on",b.dataset.dev===S.device));
-  $("#notesbtn").classList.toggle("on",S.notes);
   pre.setAttribute("data-notes",S.notes?"on":"off");
   pre.setAttribute("data-device",S.device);
   alignMobileModal();
@@ -445,7 +444,6 @@ $("#devpills").addEventListener("click",e=>{const b=e.target.closest("button");i
   if(S.modalOpen) modalMounted=false; // structure (mobileclip wrapper) depends on device — force a remount
   paint();});
 $("#resetbtn").addEventListener("click",()=>{ reset(); S.modalOpen=false; paint(); scheduleAutoPrompt(); });
-$("#notesbtn").addEventListener("click",()=>{ S.notes=!S.notes; paint(); });
 $("#notesdrawer").addEventListener("click",e=>{ if(e.target.closest('[data-a="notesclose"]')){ S.notes=false; paint(); } });
 
 document.documentElement.setAttribute("data-skin","");
