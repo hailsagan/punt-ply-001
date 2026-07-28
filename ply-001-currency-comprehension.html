@@ -92,9 +92,9 @@ button:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--ink); outl
 
 /* analogy cards */
 .anacard{border:1px solid var(--line); border-radius:12px; padding:16px; background:var(--surface)}
-.anacard .eq{font-family:var(--mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent-2); display:block; margin-top:10px}
-.anacard .an-ttl{font-size:15px; font-weight:650; margin-top:4px}
-.anacard p{margin:7px 0 0; font-size:12.5px; color:var(--ink-2); line-height:1.5}
+.anacard .an-ttl{font-size:19px; font-weight:700; letter-spacing:-.01em; margin-top:10px}
+.anacard p{margin:8px 0 0; font-size:13px; color:var(--ink-2); line-height:1.5}
+.anacard p b{color:var(--ink); font-weight:650}
 
 /* game card + success */
 .game{display:flex; gap:13px; align-items:center; border:1px solid var(--line); border-radius:12px; padding:14px; background:var(--panel)}
@@ -248,10 +248,10 @@ const SC={code:"SC", glyph:"S", name:"Sweeps Coins", bal:"5.00", tag:"For prizes
 const GAME={name:"Golden Sevens", sub:"Classic 3-reel · your first play"};
 
 const META={
-  v2:{code:"V2",name:"The Analogy",pattern:"Audience-appropriate metaphor",
-      note:"Explains the two coins through something the player already knows — an arcade. Gold Coins are the tokens you play with; Sweeps Coins are the tickets you trade for a prize. Warm, plain, zero legalese.",
-      move:"Aims straight at 'audience-appropriate voice': a metaphor does comprehension work a compliance line never could, and it's sticky enough to repeat back in their own words later.",
-      risk:"The metaphor has to fit the real mechanics or it teaches a wrong model. Tone that's too cute can undercut players who want the literal answer — the plain line still has to sit underneath it."}
+  v2:{code:"V2",name:"The Plain Answer",pattern:"Direct, plain-language explanation",
+      note:"States the difference plainly, framed as 'how this works' rather than a wallet-settings screen: Gold Coins are just for gameplay; Sweeps Coins can be redeemed for real cash prizes, and only ever arrive bundled free with Gold Coins — never purchased. No metaphor, no legalese.",
+      move:"Skips illustration and states the mechanic directly, including the one rule that matters most — you can't buy Sweeps Coins. Plain language does the comprehension work a compliance-style disclosure never could.",
+      risk:"Being this direct can read as a rules list if the two cards don't stay tightly parallel in length and structure; the friendly 'How This Works' framing has to carry the warmth, since the copy itself is literal rather than illustrative."}
 };
 const PATH={v2:"1 tap · 10s"};
 
@@ -289,17 +289,19 @@ function firstPlayScreen(path){
 }
 const V2={ view(){
   return `<div class="mpad anim">
-    <h2 class="h-lg mt8">Welcome to Punt</h2>
-    <p class="txt">Play your way.</p>
+    <h2 class="h-lg mt8">How This Works</h2>
+    <p class="txt">Play any game with Gold Coins or Sweeps Coins. You can switch between coins at any time.</p>
     <div class="coins mt16">
-      <div class="anacard">${coinDisc(GC)}<span class="eq">Play for Free</span>
-        <div class="an-ttl">Gold Coins</div>
-        <p>Feed the machines and play all night. Great fun — but you don't take tokens home.</p></div>
-      <div class="anacard">${coinDisc(SC)}<span class="eq">Win Real Prizes</span>
-        <div class="an-ttl">Sweeps Coins</div>
-        <p>What you actually trade in at the counter for a real prize. Play with them and they can pay out.</p></div>
+      <div class="anacard">${coinDisc(GC)}
+        <div class="an-ttl">Play for fun</div>
+        <p><b>Gold Coins</b> are just for gameplay.</p>
+        <p>You can buy Gold Coins or collect extra coins for free.</p></div>
+      <div class="anacard">${coinDisc(SC)}
+        <div class="an-ttl">Play for prizes</div>
+        <p><b>Sweeps Coins</b> can be redeemed for real cash prizes.</p>
+        <p>You can't buy Sweeps Coins, but you can get them for free bundled with Gold Coins.</p></div>
     </div>
-    <button class="btn mt16" data-a="close">Got it — let's play</button>
+    <button class="btn mt16" data-a="close">Got it, let's go</button>
   </div>`;
 }};
 const V={v2:V2};

@@ -52,9 +52,10 @@ a **first play**, and could explain it in their own words.
 
 ## The concept
 
-**The Analogy** — audience-appropriate metaphor. Explains the two coins through something the
-player already knows — an arcade. Gold Coins are the tokens you play with; Sweeps Coins are the
-tickets you trade for a prize. Warm, plain, zero legalese.
+**The Plain Answer** — direct, plain-language explanation, framed as "How This Works" rather
+than a wallet-settings screen. States the mechanic outright: Gold Coins are just for gameplay;
+Sweeps Coins can be redeemed for real cash prizes, and only ever arrive bundled free with Gold
+Coins — never purchased. No metaphor, no legalese.
 
 ## Using the prototype
 
