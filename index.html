@@ -84,15 +84,10 @@ button:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--ink); outl
 /* coins */
 .coins{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px}
 @media (max-width:460px){ .coins{grid-template-columns:1fr} }
-.disc{width:34px; height:34px; border-radius:50%; display:grid; place-items:center; font-family:var(--mono); font-weight:700; font-size:14px; flex:0 0 auto}
-.disc.gc{background:var(--fill); color:var(--on-fill)}
-.disc.sc{background:var(--panel); color:var(--ink); border:1.5px solid var(--line-strong); box-shadow:inset 0 0 0 3px var(--panel), inset 0 0 0 5px var(--line-2)}
-:root[data-skin="brand"] .disc.gc{background:var(--accent); color:var(--on-fill)}
-:root[data-skin="brand"] .disc.sc{border-color:var(--accent-2); box-shadow:inset 0 0 0 3px var(--panel), inset 0 0 0 5px var(--accent-2)}
 
 /* analogy cards */
 .anacard{border:1px solid var(--line); border-radius:12px; padding:16px; background:var(--surface)}
-.anacard .an-ttl{font-size:19px; font-weight:700; letter-spacing:-.01em; margin-top:10px}
+.anacard .an-ttl{font-size:19px; font-weight:700; letter-spacing:-.01em}
 .anacard p{margin:8px 0 0; font-size:13px; color:var(--ink-2); line-height:1.5}
 .anacard p b{color:var(--ink); font-weight:650}
 
@@ -259,7 +254,6 @@ const S={v:"v2", notes:false, fidelity:"midfi", device:"desktop", modalOpen:fals
 function reset(){ S.played=false; }
 
 /* ---- concept helpers ---- */
-function coinDisc(c){return `<span class="disc ${c.code.toLowerCase()}">${c.glyph}</span>`;}
 function gameCard(coinLabel){
   return `<div class="game"><span class="gicon">${IC.slot}</span>
     <div class="grow"><div class="gname">${GAME.name}</div><div class="gsub">${GAME.sub}</div></div>
@@ -290,13 +284,13 @@ function firstPlayScreen(path){
 const V2={ view(){
   return `<div class="mpad anim">
     <h2 class="h-lg mt8">How This Works</h2>
-    <p class="txt">Play any game with Gold Coins or Sweeps Coins. You can switch between coins at any time.</p>
+    <p class="txt">Play any game with Gold Coins or Sweeps Coins.<br>You can switch between coins at any time.</p>
     <div class="coins mt16">
-      <div class="anacard">${coinDisc(GC)}
+      <div class="anacard">
         <div class="an-ttl">Play for fun</div>
         <p><b>Gold Coins</b> are just for gameplay.</p>
         <p>You can buy Gold Coins or collect extra coins for free.</p></div>
-      <div class="anacard">${coinDisc(SC)}
+      <div class="anacard">
         <div class="an-ttl">Play for prizes</div>
         <p><b>Sweeps Coins</b> can be redeemed for real cash prizes.</p>
         <p>You can't buy Sweeps Coins, but you can get them for free bundled with Gold Coins.</p></div>
