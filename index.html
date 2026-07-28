@@ -250,7 +250,7 @@ const META={
 };
 const PATH={v2:"1 tap · 10s"};
 
-const S={v:"v2", notes:false, fidelity:"midfi", device:"desktop", modalOpen:false, played:false};
+const S={v:"v2", notes:false, fidelity:"hifi", device:"mobile", modalOpen:false, played:false};
 function reset(){ S.played=false; }
 
 /* ---- concept helpers ---- */
@@ -446,7 +446,7 @@ $("#devpills").addEventListener("click",e=>{const b=e.target.closest("button");i
 $("#resetbtn").addEventListener("click",()=>{ reset(); S.modalOpen=false; paint(); scheduleAutoPrompt(); });
 $("#notesdrawer").addEventListener("click",e=>{ if(e.target.closest('[data-a="notesclose"]')){ S.notes=false; paint(); } });
 
-document.documentElement.setAttribute("data-skin","");
+document.documentElement.setAttribute("data-skin",S.fidelity==="hifi"?"brand":"");
 writeBoard();
 paint();
 scheduleAutoPrompt();
