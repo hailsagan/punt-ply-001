@@ -18,12 +18,15 @@ browser.
   modal — for a **2-second beat** before the currency explanation auto-prompts, so it reads as
   arriving into the lobby rather than being gated by a dialog. Tap the board early to skip the
   wait. On **desktop** it fades/rises in, matching the rest of the flow; on **mobile** it slides
-  up from the bottom like a native drawer.
+  up from the bottom like a native drawer, clipped to the simulated device frame so it never
+  visibly spills past the phone's edges. The modal never scrolls internally on either device —
+  no scrollbar ever appears.
 - **The moment** — the currency explanation opens in a **modal overlaying the board**, the way
   a first-timer would meet it in the real product. Reopen it anytime from the wallet-setup CTA,
   the side-panel "See the difference" link, or the masthead.
-- **Concepts** — the modal content switches between the two concepts below, in place, without
-  replaying the open animation.
+- **Concepts** — switching Concept (or **Reset flow**) closes the modal and re-triggers the same
+  board-first, 2-second auto-prompt used on load, landing on the new concept — rather than
+  snapping straight to it.
 
 ## The brief
 
