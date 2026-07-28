@@ -24,6 +24,12 @@ browser.
 - **The moment** — the currency explanation opens in a **modal overlaying the board**, the way
   a first-timer would meet it in the real product. Reopen it anytime from the wallet-setup CTA,
   the side-panel "See the difference" link, or the masthead.
+- **Trade CTAs carry the currency choice through** — every "Trade" button on the board (the
+  hero market and each featured card) is now two buttons, **"Trade with Gold Coins"** and
+  **"Trade with Sweeps Coins"**, so the two-currency distinction the modal just taught doesn't
+  disappear the moment you leave it. The hero's pair sits side by side on desktop (collapsing to
+  stacked on mobile, matching the board's own responsive breakpoint); the featured cards stay
+  stacked at every size.
 - **Concepts** — switching Concept (or **Reset flow**) closes the modal and re-triggers the same
   board-first, 2-second auto-prompt used on load, landing on the new concept — rather than
   snapping straight to it.
