@@ -161,8 +161,8 @@ button:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--ink); outl
 .seg-pills button.on{background:#f4f4ef; color:#141416}
 .seg-pills button svg{width:13px; height:13px; stroke:currentColor; fill:none; stroke-width:1.7}
 .rb-actions{margin-left:auto; display:flex; gap:5px; flex:0 0 auto}
-.rb-actions button{background:none; border:0; cursor:pointer; color:#c9c9c3; font-size:12px; display:flex; align-items:center; gap:6px; padding:6px 9px; border-radius:8px; white-space:nowrap}
-.rb-actions button:hover{color:#fff; background:rgba(244,244,239,.08)}
+.rb-actions button,.rb-actions a{background:none; border:0; cursor:pointer; color:#c9c9c3; font-size:12px; display:flex; align-items:center; gap:6px; padding:6px 9px; border-radius:8px; white-space:nowrap; text-decoration:none; font-family:inherit}
+.rb-actions button:hover,.rb-actions a:hover{color:#fff; background:rgba(244,244,239,.08)}
 .rb-actions button.on{color:#141416; background:#f4f4ef}
 .rb-actions svg{width:14px; height:14px; stroke:currentColor; fill:none; stroke-width:1.7}
 
@@ -215,7 +215,7 @@ button:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--ink); outl
     </div>
     <div class="rb-actions">
       <button id="resetbtn"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Reset</button>
-      <button id="indexbtn"><svg viewBox="0 0 24 24"><path d="M4 6h4M4 12h4M4 18h4M11 6h9M11 12h9M11 18h9"/></svg>Index</button>
+      <a id="indexbtn" href="https://punt-prototypes-index.vercel.app/"><svg viewBox="0 0 24 24"><path d="M4 6h4M4 12h4M4 18h4M11 6h9M11 12h9M11 18h9"/></svg>Index</a>
     </div>
   </div>
 </div>
