@@ -13,7 +13,7 @@ browser.
 
 ## The shape
 
-- **Landing** — the Punt **Play lobby** board (utility nav, newspaper masthead, featured hero,
+- **Landing** — the Punt **Play lobby** board (masthead with the Punt wordmark, featured hero,
   welcome-bundle side panel, game grid) is the starting point. It's what's on screen first — no
   modal — for a **2-second beat** before the currency explanation auto-prompts, so it reads as
   arriving into the lobby rather than being gated by a dialog. Tap the board early to skip the
@@ -30,9 +30,8 @@ browser.
   disappear the moment you leave it. The hero's pair sits side by side on desktop (collapsing to
   stacked on mobile, matching the board's own responsive breakpoint); the featured cards stay
   stacked at every size.
-- **Concepts** — switching Concept (or **Reset flow**) closes the modal and re-triggers the same
-  board-first, 2-second auto-prompt used on load, landing on the new concept — rather than
-  snapping straight to it.
+- **Reset flow** closes the modal and re-triggers the same board-first, 2-second auto-prompt
+  used on load, rather than snapping straight back to it.
 
 ## The brief
 
@@ -51,22 +50,20 @@ single wallet — **10,000 Gold Coins** (for fun) and **5 Sweeps Coins** (for pr
 two look confusingly alike. Success = the difference lands well enough that the player reaches
 a **first play**, and could explain it in their own words.
 
-## The concepts
+## The concept
 
-| # | Concept | Pattern |
-|---|---------|---------|
-| V1 | The Split | Glanceable side-by-side — both coins contrasted in the wallet, one plain line each |
-| V2 | The Analogy | Audience-appropriate metaphor — arcade tokens (Gold) vs. prize tickets (Sweeps) |
+**The Analogy** — audience-appropriate metaphor. Explains the two coins through something the
+player already knows — an arcade. Gold Coins are the tokens you play with; Sweeps Coins are the
+tickets you trade for a prize. Warm, plain, zero legalese.
 
 ## Using the prototype
 
 A bottom **REVIEW bar** (shared Punt POC format) drives everything:
 
-- **Concept** — switch between V1 and V2; the modal content swaps in place (no reopen animation).
 - **Fidelity** — Mid-Fi (light editorial mono) / Hi-Fi (dark brand skin).
 - **Device** — Desktop / Mobile (wraps the board in a phone frame).
-- **Reset flow** — restart the current concept · **UX notes** — right-hand drawer with the
-  pattern rationale and considerations per concept.
+- **Reset flow** — restart the flow · **UX notes** — right-hand drawer with the pattern
+  rationale and considerations.
 
 ## Deliberately not built
 
