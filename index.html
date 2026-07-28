@@ -133,16 +133,12 @@ button:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--ink); outl
 .modal{background:var(--panel); border:1px solid var(--line-2); border-radius:18px; width:min(560px,100%); max-height:88vh;
   display:flex; flex-direction:column; box-shadow:var(--shadow-lg); overflow:hidden; animation:rise .28s cubic-bezier(.2,.7,.2,1)}
 @keyframes rise{from{transform:translateY(16px)}to{transform:none}}
-@keyframes drawerUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
 .modal-closerow{display:flex; justify-content:flex-end; padding:12px 12px 0; flex:0 0 auto}
 .mh-close{width:30px; height:30px; border-radius:9px; border:1px solid var(--line-2); background:var(--panel); cursor:pointer; display:grid; place-items:center; color:var(--ink-2)}
 .mh-close:hover{background:var(--surface)}
 .mh-close svg{width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:1.8}
 .modal-body{overflow:hidden}
 .mpad{padding:8px 22px 22px}
-/* mobile only: clips the sliding card to the device frame's own bounds (sized/positioned via JS) */
-.mobileclip{position:fixed; overflow:hidden; pointer-events:none; z-index:80}
-.mobileclip .modal{pointer-events:auto}
 
 /* ---- REVIEW bar ---- */
 .rbar{position:fixed; left:0; right:0; bottom:0; z-index:100; display:flex; align-items:center; gap:20px; height:var(--rbar-h);
@@ -180,8 +176,7 @@ button:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--ink); outl
 .nd-sec .tag{display:block; font-family:var(--mono); font-size:9.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:6px}
 .nd-sec p{margin:0; font-size:12.5px; line-height:1.5; color:var(--ink-2)}
 
-/* mobile modal */
-.pre[data-device="mobile"] .modal{width:min(380px,92vw); max-height:80vh; animation:drawerUp .34s cubic-bezier(.2,.7,.2,1)}
+/* mobile modal (real narrow viewport, not the simulated device toggle) */
 @media (max-width:560px){
   .modalback{padding:0; align-items:flex-end}
   .modal{border-radius:18px 18px 0 0; max-height:92vh}
@@ -323,40 +318,35 @@ function syncDevice(){ try{ const d=frame.contentDocument; if(d) d.querySelector
 /* anchor the modal to the bottom of the board's own phone-frame rect (not the browser viewport) */
 function alignMobileModal(){
   const modalEl=document.querySelector(".modal");
-  const clipEl=document.querySelector(".mobileclip");
   if(!modalEl) return;
-  if(S.device!=="mobile"){ modalEl.style.cssText=""; if(clipEl) clipEl.style.cssText=""; return; }
+  if(S.device!=="mobile"){ modalEl.style.cssText=""; return; }
   let inner;
   try{ const doc=frame.contentDocument; inner=doc.querySelector("._frame_lazny_32")||doc.querySelector("._stage_lazny_16"); }
   catch(e){ inner=null; }
-  if(!inner){ modalEl.style.cssText=""; if(clipEl) clipEl.style.cssText=""; return; }
+  if(!inner){ modalEl.style.cssText=""; return; }
   const ir=inner.getBoundingClientRect(), fr=frame.getBoundingClientRect();
   const absLeft=fr.left+ir.left, absTop=fr.top+ir.top, absRight=fr.left+ir.right, absBottom=fr.top+ir.bottom;
-  const gap=16;
   const width=Math.round(Math.min(380,ir.width-32));
-  const centerX=(absLeft+absRight)/2;
+  const maxH=Math.round(ir.height*0.86);
+  const centerX=(absLeft+absRight)/2, centerY=(absTop+absBottom)/2;
   modalEl.style.position="fixed";
-  modalEl.style.left=Math.round(centerX-width/2)+"px";
-  modalEl.style.bottom=Math.round(window.innerHeight-absBottom+gap)+"px";
-  modalEl.style.width=width+"px";
   modalEl.style.margin="0";
-  if(clipEl){
-    clipEl.style.left=Math.round(absLeft)+"px";
-    clipEl.style.top=Math.round(absTop)+"px";
-    clipEl.style.width=Math.round(absRight-absLeft)+"px";
-    clipEl.style.height=Math.round(absBottom-absTop)+"px";
-  }
+  modalEl.style.width=width+"px";
+  modalEl.style.maxHeight=maxH+"px";
+  modalEl.style.left=Math.round(centerX-width/2)+"px";
+  const h=modalEl.getBoundingClientRect().height;
+  modalEl.style.top=Math.round(centerY-h/2)+"px";
 }
 
 /* ---- modal ---- */
 function currentBodyHTML(){ return S.played ? firstPlayScreen(PATH[S.v]) : V[S.v].view(); }
 function modalView(bodyHTML){
-  const card=`<div class="modal" data-a="noop" role="dialog" aria-modal="true">
+  return `<div class="modalback" data-a="close">
+    <div class="modal" data-a="noop" role="dialog" aria-modal="true">
       <div class="modal-closerow"><button class="mh-close" data-a="close" aria-label="Close">${IC.close}</button></div>
       <div class="modal-body">${bodyHTML}</div>
-    </div>`;
-  const inner = S.device==="mobile" ? `<div class="mobileclip">${card}</div>` : card;
-  return `<div class="modalback" data-a="close">${inner}</div>`;
+    </div>
+  </div>`;
 }
 /* smooth content swap for an already-open modal — no re-mount, no replayed open animation */
 let modalMounted=false, lastBodyHTML=null, autoPromptTimer=null;
@@ -440,9 +430,7 @@ window.addEventListener("resize",()=>{ if(S.device==="mobile") alignMobileModal(
 $("#skinpills").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
   S.fidelity=b.dataset.fid; document.documentElement.setAttribute("data-skin",S.fidelity==="hifi"?"brand":""); syncSkin(); paint();});
 $("#devpills").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
-  S.device=b.dataset.dev; syncDevice();
-  if(S.modalOpen) modalMounted=false; // structure (mobileclip wrapper) depends on device — force a remount
-  paint();});
+  S.device=b.dataset.dev; syncDevice(); paint();});
 $("#resetbtn").addEventListener("click",()=>{ reset(); S.modalOpen=false; paint(); scheduleAutoPrompt(); });
 $("#notesdrawer").addEventListener("click",e=>{ if(e.target.closest('[data-a="notesclose"]')){ S.notes=false; paint(); } });
 
