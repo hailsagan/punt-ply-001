@@ -63,3 +63,8 @@ legal/compliance-style currency copy. The explanation stays isolated to comprehe
 
 Internal POC — happy-path flows only. Board content, balances, the game list, and the
 welcome-bundle values are illustrative placeholders where real wallet and game data would sit.
+
+## Deploy
+
+This repo is connected to the **punt-ply-001** Vercel project — every push to `main` deploys
+automatically. No build step; Vercel serves the static HTML as-is.
