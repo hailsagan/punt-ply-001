@@ -14,11 +14,16 @@ browser.
 ## The shape
 
 - **Landing** — the Punt **Play lobby** board (utility nav, newspaper masthead, featured hero,
-  welcome-bundle side panel, game grid) is the starting point.
+  welcome-bundle side panel, game grid) is the starting point. It's what's on screen first — no
+  modal — for a **2-second beat** before the currency explanation auto-prompts, so it reads as
+  arriving into the lobby rather than being gated by a dialog. Tap the board early to skip the
+  wait. On **desktop** it fades/rises in, matching the rest of the flow; on **mobile** it slides
+  up from the bottom like a native drawer.
 - **The moment** — the currency explanation opens in a **modal overlaying the board**, the way
   a first-timer would meet it in the real product. Reopen it anytime from the wallet-setup CTA,
   the side-panel "See the difference" link, or the masthead.
-- **Concepts** — the modal content switches between the two concepts below.
+- **Concepts** — the modal content switches between the two concepts below, in place, without
+  replaying the open animation.
 
 ## The brief
 

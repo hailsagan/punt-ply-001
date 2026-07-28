@@ -135,6 +135,7 @@ button:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--ink); outl
 .modal{background:var(--panel); border:1px solid var(--line-2); border-radius:18px; width:min(560px,100%); max-height:88vh;
   display:flex; flex-direction:column; box-shadow:var(--shadow-lg); overflow:hidden; animation:rise .28s cubic-bezier(.2,.7,.2,1)}
 @keyframes rise{from{transform:translateY(16px); opacity:.6}to{transform:none; opacity:1}}
+@keyframes drawerUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
 .modal-closerow{display:flex; justify-content:flex-end; padding:12px 12px 0; flex:0 0 auto}
 .mh-close{width:30px; height:30px; border-radius:9px; border:1px solid var(--line-2); background:var(--panel); cursor:pointer; display:grid; place-items:center; color:var(--ink-2)}
 .mh-close:hover{background:var(--surface)}
@@ -179,7 +180,7 @@ button:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--ink); outl
 .nd-sec p{margin:0; font-size:12.5px; line-height:1.5; color:var(--ink-2)}
 
 /* mobile modal */
-.pre[data-device="mobile"] .modal{width:min(380px,92vw); max-height:80vh}
+.pre[data-device="mobile"] .modal{width:min(380px,92vw); max-height:80vh; animation:drawerUp .34s cubic-bezier(.2,.7,.2,1)}
 @media (max-width:560px){
   .modalback{padding:0; align-items:flex-end}
   .modal{border-radius:18px 18px 0 0; max-height:92vh}
@@ -254,7 +255,7 @@ const META={
 const ORDER=["v1","v2"];
 const PATH={v1:"1 tap · 9s",v2:"1 tap · 10s"};
 
-const S={v:"v1", notes:false, fidelity:"midfi", device:"desktop", modalOpen:true, played:false};
+const S={v:"v1", notes:false, fidelity:"midfi", device:"desktop", modalOpen:false, played:false};
 function reset(){ S.played=false; }
 
 /* ---- concept helpers ---- */
@@ -374,7 +375,7 @@ function modalView(bodyHTML){
   </div>`;
 }
 /* smooth content swap for an already-open modal — no re-mount, no replayed open animation */
-let modalMounted=false, lastBodyHTML=null;
+let modalMounted=false, lastBodyHTML=null, autoPromptTimer=null;
 function swapModalBody(html){
   const body=document.querySelector(".modal-body");
   if(!body) return;
@@ -410,6 +411,7 @@ function renderNotes(){
 
 /* ---- paint ---- */
 function paint(){
+  if(autoPromptTimer){ clearTimeout(autoPromptTimer); autoPromptTimer=null; }
   if(S.modalOpen){
     const bodyHTML=currentBodyHTML();
     if(!modalMounted){
@@ -463,6 +465,7 @@ $("#notesdrawer").addEventListener("click",e=>{ if(e.target.closest('[data-a="no
 document.documentElement.setAttribute("data-skin","");
 writeBoard();
 paint();
+autoPromptTimer=setTimeout(()=>{ S.modalOpen=true; paint(); },2000);
 })();
 </script>
 </body>
