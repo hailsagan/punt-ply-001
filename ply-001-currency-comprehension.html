@@ -246,13 +246,13 @@ const META={
       note:"The unified wallet opens on both coins contrasted side by side — name, balance, and one plain line each on what it's for. Comprehension in a single glance, before any game.",
       move:"Answers the confusion pre-emptively and structurally: the difference is spatial, not a paragraph. No sequence, no gate — the layout does the explaining.",
       risk:"Up-front content can be skimmed past; if the copy drifts toward feature-listing it edges back toward the disclosure the brief forbids. The two lines have to stay human and truly parallel."},
-  v3:{code:"V3",name:"The Analogy",pattern:"Audience-appropriate metaphor",
+  v2:{code:"V2",name:"The Analogy",pattern:"Audience-appropriate metaphor",
       note:"Explains the two coins through something the player already knows — an arcade. Gold Coins are the tokens you play with; Sweeps Coins are the tickets you trade for a prize. Warm, plain, zero legalese.",
       move:"Aims straight at 'audience-appropriate voice': a metaphor does comprehension work a compliance line never could, and it's sticky enough to repeat back in their own words later.",
       risk:"The metaphor has to fit the real mechanics or it teaches a wrong model. Tone that's too cute can undercut players who want the literal answer — the plain line still has to sit underneath it."}
 };
-const ORDER=["v1","v3"];
-const PATH={v1:"1 tap · 9s",v3:"1 tap · 10s"};
+const ORDER=["v1","v2"];
+const PATH={v1:"1 tap · 9s",v2:"1 tap · 10s"};
 
 const S={v:"v1", notes:false, fidelity:"midfi", device:"desktop", modalOpen:true, played:false};
 function reset(){ S.played=false; }
@@ -305,7 +305,7 @@ const V1={ view(){
     </div>
   </div>`;
 }};
-const V3={ view(){
+const V2={ view(){
   return `<div class="mpad anim">
     <h2 class="h-lg mt8">Welcome to Punt</h2>
     <p class="txt">Play your way.</p>
@@ -320,7 +320,7 @@ const V3={ view(){
     <button class="btn mt16" data-a="close">Got it — let's play</button>
   </div>`;
 }};
-const V={v1:V1,v3:V3};
+const V={v1:V1,v2:V2};
 
 /* ---- toast ---- */
 let toastT;
@@ -364,14 +364,36 @@ function alignMobileModal(){
 }
 
 /* ---- modal ---- */
-function modalView(){
-  const body = S.played ? firstPlayScreen(PATH[S.v]) : V[S.v].view();
+function currentBodyHTML(){ return S.played ? firstPlayScreen(PATH[S.v]) : V[S.v].view(); }
+function modalView(bodyHTML){
   return `<div class="modalback" data-a="close">
     <div class="modal" data-a="noop" role="dialog" aria-modal="true">
       <div class="modal-closerow"><button class="mh-close" data-a="close" aria-label="Close">${IC.close}</button></div>
-      <div class="modal-body">${body}</div>
+      <div class="modal-body">${bodyHTML}</div>
     </div>
   </div>`;
+}
+/* smooth content swap for an already-open modal — no re-mount, no replayed open animation */
+let modalMounted=false, lastBodyHTML=null;
+function swapModalBody(html){
+  const body=document.querySelector(".modal-body");
+  if(!body) return;
+  const startH=body.getBoundingClientRect().height;
+  body.style.transition="none";
+  body.style.height=startH+"px";
+  body.style.overflow="hidden";
+  body.innerHTML=html;
+  requestAnimationFrame(()=>{
+    const endH=body.scrollHeight;
+    body.style.transition="height .22s cubic-bezier(.2,.7,.2,1)";
+    body.style.height=endH+"px";
+  });
+  clearTimeout(swapModalBody._t);
+  swapModalBody._t=setTimeout(()=>{
+    body.style.height="";
+    body.style.overflow="";
+    body.style.transition="";
+  },240);
 }
 
 /* ---- notes ---- */
@@ -388,7 +410,20 @@ function renderNotes(){
 
 /* ---- paint ---- */
 function paint(){
-  $("#modalroot").innerHTML = S.modalOpen ? modalView() : "";
+  if(S.modalOpen){
+    const bodyHTML=currentBodyHTML();
+    if(!modalMounted){
+      $("#modalroot").innerHTML=modalView(bodyHTML);
+      modalMounted=true;
+    } else if(bodyHTML!==lastBodyHTML){
+      swapModalBody(bodyHTML);
+    }
+    lastBodyHTML=bodyHTML;
+  } else {
+    $("#modalroot").innerHTML="";
+    modalMounted=false;
+    lastBodyHTML=null;
+  }
   $("#reopen").hidden = S.modalOpen;
   renderNotes();
   document.querySelectorAll("#conceptpills button").forEach(b=>b.classList.toggle("on",b.dataset.v===S.v));

@@ -42,13 +42,13 @@ a **first play**, and could explain it in their own words.
 | # | Concept | Pattern |
 |---|---------|---------|
 | V1 | The Split | Glanceable side-by-side — both coins contrasted in the wallet, one plain line each |
-| V3 | The Analogy | Audience-appropriate metaphor — arcade tokens (Gold) vs. prize tickets (Sweeps) |
+| V2 | The Analogy | Audience-appropriate metaphor — arcade tokens (Gold) vs. prize tickets (Sweeps) |
 
 ## Using the prototype
 
 A bottom **REVIEW bar** (shared Punt POC format) drives everything:
 
-- **Concept** — switch between V1 and V3; the modal reopens on the chosen concept.
+- **Concept** — switch between V1 and V2; the modal content swaps in place (no reopen animation).
 - **Fidelity** — Mid-Fi (light editorial mono) / Hi-Fi (dark brand skin).
 - **Device** — Desktop / Mobile (wraps the board in a phone frame).
 - **Reset flow** — restart the current concept · **UX notes** — right-hand drawer with the
