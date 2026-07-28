@@ -396,6 +396,10 @@ function swapModalBody(html){
     body.style.transition="";
   },240);
 }
+/* board-first beat: close the modal, then auto-prompt it again after a delay */
+function scheduleAutoPrompt(){
+  autoPromptTimer=setTimeout(()=>{ S.modalOpen=true; paint(); },2000);
+}
 
 /* ---- notes ---- */
 function renderNotes(){
@@ -453,19 +457,19 @@ window.addEventListener("resize",()=>{ if(S.device==="mobile") alignMobileModal(
 /* ---- review bar ---- */
 $("#conceptpills").innerHTML=ORDER.map(v=>`<button data-v="${v}">${META[v].code}</button>`).join("");
 $("#conceptpills").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
-  S.v=b.dataset.v; reset(); S.modalOpen=true; paint();});
+  S.v=b.dataset.v; reset(); S.modalOpen=false; paint(); scheduleAutoPrompt();});
 $("#skinpills").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
   S.fidelity=b.dataset.fid; document.documentElement.setAttribute("data-skin",S.fidelity==="hifi"?"brand":""); syncSkin(); paint();});
 $("#devpills").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
   S.device=b.dataset.dev; syncDevice(); paint();});
-$("#resetbtn").addEventListener("click",()=>{ reset(); S.modalOpen=true; paint(); });
+$("#resetbtn").addEventListener("click",()=>{ reset(); S.modalOpen=false; paint(); scheduleAutoPrompt(); });
 $("#notesbtn").addEventListener("click",()=>{ S.notes=!S.notes; paint(); });
 $("#notesdrawer").addEventListener("click",e=>{ if(e.target.closest('[data-a="notesclose"]')){ S.notes=false; paint(); } });
 
 document.documentElement.setAttribute("data-skin","");
 writeBoard();
 paint();
-autoPromptTimer=setTimeout(()=>{ S.modalOpen=true; paint(); },2000);
+scheduleAutoPrompt();
 })();
 </script>
 </body>
